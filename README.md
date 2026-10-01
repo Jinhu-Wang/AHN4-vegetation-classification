@@ -14,6 +14,8 @@ class id of each point. You download the original AHN4 tiles yourself and
 | Full classified copy (`.laz`) | 9.1 GB |
 | **Label file (`.cls`)** | **118.5 MB** |
 
+See [Data volume](#data-volume-national-estimate) for the estimate for the whole country.
+
 ---
 
 ## Contents
@@ -181,6 +183,39 @@ happens, it stops and **writes nothing**:
 
 If you get a fingerprint mismatch, you most likely downloaded a different version of the
 original tile than the one the labels were made against (see [step 1](#1-get-the-original-ahn4-tiles)).
+
+---
+
+## Data volume (national estimate)
+
+This is an estimate, scaled up from one tile (`C_27CZ2`). It is not a measured total.
+
+| | Tile `C_27CZ2` (measured) | All of AHN4 (estimated) |
+|---|---|---|
+| Points | 1,182,035,054 | ≈ 833 billion |
+| Original LAZ | 9.09 GB (7.69 bytes/point) | 6,408.6 GB ¹ |
+| Full classified copies | 9.10 GB | ≈ 6.4 TB |
+| Labels, uncompressed (1 byte/point) | 1.18 GB | ≈ 833 GB |
+| **Label files (`.cls`)** | **118.5 MB (0.80 bits/point, 1.3 % of the LAZ)** | **≈ 50–85 GB** |
+
+How the estimate is derived:
+
+- The national point count is the total AHN4 LAZ volume ¹ divided by this tile's 7.69 bytes/point.
+  As a check, that count over the area of the Netherlands (≈ 41,500 km² including water) gives
+  ≈ 20 points/m², consistent with the published AHN4 density of 20–30 points/m² ¹.
+- The upper bound (≈ 84 GB) assumes this tile's 0.80 bits/point holds everywhere. This tile is
+  probably a heavy case: 37.8 points/m² and 51 % vegetation. Labels in urban, agricultural and
+  water tiles are more uniform and compress better, which is why the range extends down to ≈ 50 GB.
+  The lower bound is a rough assumption (≈ 0.5 bits/point). It is not measured.
+- The national LAZ volume comes from a single source. Its file counts are not internally
+  consistent, so treat the total as approximate.
+
+¹ Shi, Y., Wang, J., and Kissling, W. D. (2025). Multi-temporal high-resolution data products of
+ecosystem structure derived from country-wide airborne laser scanning surveys of the Netherlands.
+*Earth System Science Data*, 17, 3641–3677. <https://doi.org/10.5194/essd-17-3641-2025>
+
+> **TODO:** replace this estimate with the measured total once all tiles are encoded
+> (`python3 ahn4_classification_decode_v_1.0.py info <TILE>.cls` reports each tile's point count; the `.cls` file sizes give the total).
 
 ---
 
